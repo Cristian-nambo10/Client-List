@@ -3,23 +3,27 @@ import { useEffect, useState } from "react";
 import { Table, Button } from "react-bootstrap";
 // import "./App.css";
 import Nav from "./componenets/Nav";
+import SearchBar from "./componenets/Search";
 
 
 function App() {
   const [userData, setUserData] = useState([]);
 
+  // API CALL 
   useEffect(() => {
-    const url = "https://randomuser.me/api/?results=30";
+    const url = "https://randomuser.me/api/?results=60";
     axios.get(url).then((res) => {
       setUserData(res.data.results);
       console.log(res.data.results);
     });
   }, []);
 
+  // DELETE USER 
  function removeItem(selectedItem) {
   setUserData(userData.filter((item) => item !== selectedItem))
  }
 
+//  FILTER DATA 
   function filterUsers(filter) {
     if (filter === "Youngest_To_Oldest") {
       setUserData(
@@ -41,22 +45,12 @@ function App() {
         )
       )
     }
-    // if (filter === "Male_To_Female") {
-    //   setUserData(
-    //     userData
-    //     .slice()
-    //     .sort(
-    //       (a, b) =>
-    //         (b.gender) - (a.gender)
-    //     )
-    //   )
-    // }
   }
-
 
   return (
     <div className="container">
         <Nav />
+        <SearchBar userData={userData} />
           <select id="filter"
            defaultValue="DEFAULT"
            onChange={(event) => filterUsers(event.target.value)}>
